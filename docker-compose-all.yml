@@ -164,6 +164,8 @@ services:
     environment:
       - "PYSPARK_PYTHON=/usr/bin/python3"
       - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
+      - "JUPYTER_ENABLE_LAB=yes"
+      - "JUPYTER_TOKEN="
     command: "start-notebook.sh \
           --ip=0.0.0.0 \
           --allow-root \
