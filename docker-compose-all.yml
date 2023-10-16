@@ -16,6 +16,7 @@ services:
     networks:
       - "spark-net"
     ports:
+      - "8080:8080"
       - "7077:7077"
     environment:
       - INIT_DAEMON_STEP=setup_spark
@@ -29,6 +30,8 @@ services:
       - spark-master
     networks:
       - "spark-net"
+    ports:
+      - "8081:8081"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
       - "PYSPARK_PYTHON=/usr/bin/python3"
@@ -41,6 +44,8 @@ services:
       - spark-master
     networks:
       - "spark-net"
+    ports:
+      - "8082:8082"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
       - "PYSPARK_PYTHON=/usr/bin/python3"
@@ -151,25 +156,24 @@ services:
     container_name: jupyternb
     image: jupyter/all-spark-notebook:42f4c82a07ff
     depends_on:
-      - spark-master
+        - spark-master
     expose:
-      - "8888"
+        - "8888"
     networks:
-      - "spark-net"
+        - "spark-net"
     ports:
-      - "8888:8888"
+        - "8888:8888"
     volumes:
-      - ./nbs:/home/jovyan/work/nbs
-      - ./events:/tmp/spark-events
+        - ./nbs:/home/jovyan/work/nbs
+        - ./events:/tmp/spark-events
     environment:
-      - "PYSPARK_PYTHON=/usr/bin/python3"
-      - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
-      - "JUPYTER_ENABLE_LAB=yes"
-      - "JUPYTER_TOKEN="
+        - "PYSPARK_PYTHON=/usr/bin/python3"            
+        - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"            
     command: "start-notebook.sh \
           --ip=0.0.0.0 \
           --allow-root \
           --notebook-dir=/home/jovyan/work/nbs \
+          --NotebookApp.token=''  
           "
 
 volumes:
