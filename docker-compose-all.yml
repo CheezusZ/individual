@@ -4,8 +4,6 @@ volumes:
   shared-workspace:
 
 networks:
-  spark-net:
-    driver: bridge
   hdfs-net:
     driver: bridge
 
@@ -14,7 +12,7 @@ services:
     image: uqteaching/cloudcomputing:spark-master-v1
     container_name: spark-master
     networks:
-      - "spark-net"
+      - "hdfs-net"
     ports:
       - "8080:8080"
       - "7077:7077"
@@ -29,7 +27,7 @@ services:
     depends_on:
       - spark-master
     networks:
-      - "spark-net"
+      - "hdfs-net"
     ports:
       - "8081:8081"
     environment:
@@ -43,7 +41,7 @@ services:
     depends_on:
       - spark-master
     networks:
-      - "spark-net"
+      - "hdfs-net"
     ports:
       - "8082:8082"
     environment:
@@ -160,7 +158,7 @@ services:
     expose:
         - "8888"
     networks:
-        - "spark-net"
+        - "hdfs-net"
     ports:
         - "8888:8888"
     volumes:
