@@ -1,0 +1,19 @@
+sudo apt-get update
+sudo apt-get install docker.io -y
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+git clone https://github.com/CheezusZ/individual.git && cd individual
+sudo chmod -R 777 nbs/
+docker-compose -f docker-compose-all.yml up -d
+docker ps
+docker exec -it 56f5 mkdir -p /root/individual/nbs
+docker cp $HOME/individual/nbs/. 56f5:/root/individual/nbs/
+docker exec -it 56f5 bash
+hdfs dfs -mkdir /individual/nbs/
+hdfs dfs -put /root/individual/nbs/* /individual/nbs/
+
+
+#You need to change 56f5 to your namenode's container id
